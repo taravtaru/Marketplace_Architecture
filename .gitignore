@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.venv/
+.DS_Store
+.env
+
+# Исходные материалы задания, не входящие в сдаваемый проект
+instructions.txt
+1_microservises-*.pdf
