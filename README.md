@@ -72,61 +72,9 @@ PYTHONPATH=catalog-service/src python3 -m unittest discover -s catalog-service/t
 
 ## C4 Container
 
-Исходник диаграммы: [`docs/c4-container.mmd`](docs/c4-container.mmd). Диаграмма показывает исполняемые контейнеры, принадлежащие им хранилища и способы взаимодействия.
+Диаграмма показывает исполняемые контейнеры, основные взаимодействия и отдельное владение хранилищами. Нажмите на изображение, чтобы открыть SVG в полном размере.
 
-```mermaid
-C4Container
-title C4 Container - маркетплейс
-
-Person(buyer, "Покупатель", "Просматривает ленту, оформляет и оплачивает заказы")
-Person(seller, "Продавец", "Управляет своими товарами")
-System_Ext(paymentProvider, "Платежный провайдер", "Эквайринг и возвраты")
-System_Ext(messageProvider, "Провайдер сообщений", "Email, SMS и push")
-
-System_Boundary(marketplace, "Marketplace") {
-  Container(web, "Web / Mobile App", "SPA / Mobile", "Пользовательский интерфейс")
-  Container(gateway, "API Gateway / BFF", "HTTP API", "Единая точка входа, маршрутизация и проверка токена")
-  Container(userService, "User Service", "Service", "Пользователи, профили, роли и доступ")
-  Container(catalogService, "Catalog Service", "Python HTTP service", "Товары, категории, атрибуты и цены")
-  Container(feedService, "Feed Service", "Service", "Персонализированная выдача и ранжирование")
-  Container(orderService, "Order Service", "Service", "Оформление и жизненный цикл заказа")
-  Container(paymentService, "Payment Service", "Service", "Платежи, возвраты и учет операций")
-  Container(notificationService, "Notification Service", "Worker", "Формирование и доставка уведомлений")
-  ContainerQueue(eventBroker, "Event Broker", "Kafka-compatible", "Асинхронные доменные события")
-
-  ContainerDb(userDb, "User DB", "PostgreSQL", "Профили, роли и адреса")
-  ContainerDb(catalogDb, "Catalog DB", "PostgreSQL", "Товары, категории и цены")
-  ContainerDb(feedDb, "Feed Store", "Key-value / analytical store", "Сигналы, признаки и готовые рекомендации")
-  ContainerDb(orderDb, "Order DB", "PostgreSQL", "Заказы и снимки позиций")
-  ContainerDb(paymentDb, "Payment DB", "PostgreSQL", "Платежные операции и проводки")
-  ContainerDb(notificationDb, "Notification DB", "PostgreSQL", "Шаблоны, настройки и журнал доставки")
-}
-
-Rel(buyer, web, "Использует", "HTTPS")
-Rel(seller, web, "Использует", "HTTPS")
-Rel(web, gateway, "Вызывает", "HTTPS/JSON, синхронно")
-Rel(gateway, userService, "Профиль и доступ", "HTTP/gRPC, синхронно")
-Rel(gateway, catalogService, "Управление и чтение каталога", "HTTP/gRPC, синхронно")
-Rel(gateway, feedService, "Лента и сигналы поведения", "HTTP/gRPC, синхронно")
-Rel(gateway, orderService, "Оформление и чтение заказа", "HTTP/gRPC, синхронно")
-Rel(orderService, catalogService, "Проверяет товар и получает снимок цены", "gRPC, синхронно")
-Rel(orderService, paymentService, "Создает платежное намерение", "gRPC, синхронно")
-Rel(paymentService, paymentProvider, "Авторизация и возврат", "HTTPS, синхронно")
-Rel(notificationService, messageProvider, "Отправляет сообщения", "HTTPS, асинхронно для пользователя")
-
-Rel(userService, userDb, "Читает/пишет", "SQL")
-Rel(catalogService, catalogDb, "Читает/пишет", "SQL")
-Rel(feedService, feedDb, "Читает/пишет", "Native protocol")
-Rel(orderService, orderDb, "Читает/пишет", "SQL")
-Rel(paymentService, paymentDb, "Читает/пишет", "SQL")
-Rel(notificationService, notificationDb, "Читает/пишет", "SQL")
-
-Rel(catalogService, eventBroker, "Публикует ProductChanged", "Асинхронно")
-Rel(orderService, eventBroker, "Публикует события заказа; читает результат платежа", "Асинхронно")
-Rel(paymentService, eventBroker, "Публикует PaymentSucceeded/PaymentFailed", "Асинхронно")
-Rel(feedService, eventBroker, "Читает изменения каталога и события заказов", "Асинхронно")
-Rel(notificationService, eventBroker, "Читает события заказов и платежей", "Асинхронно")
-```
+[![C4 Container - архитектура маркетплейса](docs/c4-container.svg)](docs/c4-container.svg)
 
 ## Владение данными
 
@@ -222,7 +170,7 @@ Rel(notificationService, eventBroker, "Читает события заказо�
 ├── README.md
 ├── docker-compose.yml
 ├── docs/
-│   ├── c4-container.mmd
+│   ├── c4-container.svg
 │   └── adr/
 └── catalog-service/
     ├── Dockerfile

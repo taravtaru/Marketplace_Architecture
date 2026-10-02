@@ -1,0 +1,233 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1180" viewBox="0 0 1700 1180" role="img" aria-labelledby="title desc">
+  <title id="title">C4 Container diagram - Marketplace</title>
+  <desc id="desc">Контейнеры маркетплейса, синхронные и асинхронные связи, а также границы владения данными.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#7c3aed"/>
+    </marker>
+    <style>
+      text { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 30px; font-weight: 700; fill: #0f172a; }
+      .subtitle { font-size: 16px; fill: #475569; }
+      .boundary { fill: #f8fafc; stroke: #64748b; stroke-width: 2; stroke-dasharray: 9 7; }
+      .boundary-label { font-size: 20px; font-weight: 700; fill: #334155; }
+      .actor { fill: #0f4c81; stroke: #0b365d; stroke-width: 2; }
+      .external { fill: #64748b; stroke: #475569; stroke-width: 2; }
+      .container { fill: #2779bd; stroke: #155e93; stroke-width: 2; }
+      .broker { fill: #6d4cc3; stroke: #51389a; stroke-width: 2; }
+      .database { fill: #0f8b8d; stroke: #0b6668; stroke-width: 2; }
+      .card-title { font-size: 18px; font-weight: 700; fill: #ffffff; text-anchor: middle; }
+      .card-type { font-size: 13px; fill: #dbeafe; text-anchor: middle; }
+      .card-text { font-size: 14px; fill: #ffffff; text-anchor: middle; }
+      .external .card-type { fill: #e2e8f0; }
+      .line { fill: none; stroke: #334155; stroke-width: 2.2; marker-end: url(#arrow); }
+      .event { fill: none; stroke: #7c3aed; stroke-width: 2.4; stroke-dasharray: 9 7; marker-end: url(#arrow-purple); }
+      .event-both { fill: none; stroke: #7c3aed; stroke-width: 2.4; stroke-dasharray: 9 7; marker-start: url(#arrow-purple); marker-end: url(#arrow-purple); }
+      .edge-label { font-size: 13px; font-weight: 600; fill: #334155; paint-order: stroke; stroke: #ffffff; stroke-width: 5px; stroke-linejoin: round; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .panel-title { font-size: 19px; font-weight: 700; fill: #0f172a; }
+      .owner { font-size: 14px; font-weight: 700; fill: #155e93; text-anchor: middle; }
+      .db-title { font-size: 15px; font-weight: 700; fill: #ffffff; text-anchor: middle; }
+      .db-type { font-size: 12px; fill: #ccfbf1; text-anchor: middle; }
+      .legend { font-size: 14px; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect width="1700" height="1180" fill="#ffffff"/>
+  <text x="850" y="38" class="title" text-anchor="middle">C4 Container - Marketplace</text>
+  <text x="850" y="65" class="subtitle" text-anchor="middle">Контейнеры, ключевые связи и границы владения данными</text>
+
+  <!-- People -->
+  <g>
+    <rect x="90" y="82" width="250" height="82" rx="12" class="actor"/>
+    <text x="215" y="109" class="card-title">Покупатель</text>
+    <text x="215" y="129" class="card-type">[Person]</text>
+    <text x="215" y="150" class="card-text">Лента, заказы, оплата</text>
+  </g>
+  <g>
+    <rect x="390" y="82" width="250" height="82" rx="12" class="actor"/>
+    <text x="515" y="109" class="card-title">Продавец</text>
+    <text x="515" y="129" class="card-type">[Person]</text>
+    <text x="515" y="150" class="card-text">Управление товарами</text>
+  </g>
+
+  <!-- Marketplace boundary -->
+  <rect x="40" y="185" width="1450" height="945" rx="14" class="boundary"/>
+  <text x="1100" y="217" class="boundary-label">Marketplace [Software System]</text>
+
+  <!-- Edges are placed behind nodes -->
+  <path d="M215 164 L215 245 L300 245" class="line"/>
+  <path d="M515 164 L515 225 L420 225 L420 245" class="line"/>
+  <text x="232" y="178" class="edge-label">HTTPS</text>
+
+  <path d="M520 290 L670 290" class="line"/>
+  <text x="563" y="279" class="edge-label">HTTPS / JSON</text>
+
+  <path d="M825 335 L825 355 L260 355 L260 390" class="line"/>
+  <path d="M825 335 L825 390" class="line"/>
+  <path d="M825 335 L825 355 L1250 355 L1250 390" class="line"/>
+  <path d="M670 310 L620 310 L620 500 L430 500 L430 565 L410 565" class="line"/>
+  <text x="442" y="491" class="edge-label">checkout</text>
+
+  <path d="M410 560 L590 560" class="line"/>
+  <text x="458" y="549" class="edge-label">payment intent</text>
+  <path d="M410 545 L500 545 L500 500 L825 500 L825 480" class="line"/>
+  <text x="550" y="491" class="edge-label">товар + цена</text>
+
+  <!-- Async event connections -->
+  <path d="M825 480 L1040 480 L1040 640 L900 640 L900 665" class="event"/>
+  <path d="M260 610 L260 690 L570 690" class="event-both"/>
+  <path d="M740 610 L740 665" class="event"/>
+  <path d="M1080 680 L1450 680 L1450 365 L1250 365 L1250 390" class="event"/>
+  <path d="M1080 715 L1390 715 L1390 560 L1400 560" class="event"/>
+
+  <!-- External provider connections -->
+  <path d="M890 590 L890 635 L1480 635 L1480 560 L1530 560" class="line"/>
+  <path d="M1400 585 L1510 585 L1510 720 L1530 720" class="line"/>
+
+  <!-- Entry containers -->
+  <g>
+    <rect x="200" y="245" width="320" height="90" rx="10" class="container"/>
+    <text x="360" y="272" class="card-title">Web / Mobile App</text>
+    <text x="360" y="294" class="card-type">[Container: SPA / Mobile]</text>
+    <text x="360" y="317" class="card-text">Пользовательский интерфейс</text>
+  </g>
+  <g>
+    <rect x="670" y="245" width="310" height="90" rx="10" class="container"/>
+    <text x="825" y="272" class="card-title">API Gateway / BFF</text>
+    <text x="825" y="294" class="card-type">[Container: HTTP API]</text>
+    <text x="825" y="317" class="card-text">Вход, маршрутизация, проверка токена</text>
+  </g>
+
+  <!-- Domain containers -->
+  <g>
+    <rect x="110" y="390" width="300" height="90" rx="10" class="container"/>
+    <text x="260" y="417" class="card-title">User Service</text>
+    <text x="260" y="439" class="card-type">[Container: Service]</text>
+    <text x="260" y="462" class="card-text">Пользователи, профили и роли</text>
+  </g>
+  <g>
+    <rect x="675" y="390" width="300" height="90" rx="10" class="container"/>
+    <text x="825" y="417" class="card-title">Catalog Service</text>
+    <text x="825" y="439" class="card-type">[Container: Python HTTP service]</text>
+    <text x="825" y="462" class="card-text">Товары, категории и цены</text>
+  </g>
+  <g>
+    <rect x="1100" y="390" width="300" height="90" rx="10" class="container"/>
+    <text x="1250" y="417" class="card-title">Feed Service</text>
+    <text x="1250" y="439" class="card-type">[Container: Service]</text>
+    <text x="1250" y="462" class="card-text">Персональная выдача и ранжирование</text>
+  </g>
+
+  <g>
+    <rect x="110" y="520" width="300" height="90" rx="10" class="container"/>
+    <text x="260" y="547" class="card-title">Order Service</text>
+    <text x="260" y="569" class="card-type">[Container: Service]</text>
+    <text x="260" y="592" class="card-text">Оформление и статусы заказа</text>
+  </g>
+  <g>
+    <rect x="590" y="520" width="300" height="90" rx="10" class="container"/>
+    <text x="740" y="547" class="card-title">Payment Service</text>
+    <text x="740" y="569" class="card-type">[Container: Service]</text>
+    <text x="740" y="592" class="card-text">Платежи, возвраты и учет</text>
+  </g>
+  <g>
+    <rect x="1100" y="520" width="300" height="90" rx="10" class="container"/>
+    <text x="1250" y="547" class="card-title">Notification Service</text>
+    <text x="1250" y="569" class="card-type">[Container: Worker]</text>
+    <text x="1250" y="592" class="card-text">Email, SMS и push-уведомления</text>
+  </g>
+
+  <!-- Event broker -->
+  <g>
+    <rect x="570" y="665" width="510" height="90" rx="12" class="broker"/>
+    <text x="825" y="693" class="card-title">Event Broker</text>
+    <text x="825" y="715" class="card-type">[Container: Kafka-compatible]</text>
+    <text x="825" y="738" class="card-text">ProductChanged, Order*, Payment*</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(100 685)">
+    <text x="0" y="0" class="panel-title">Связи</text>
+    <line x1="0" y1="30" x2="90" y2="30" class="line"/>
+    <text x="105" y="35" class="legend">синхронно</text>
+    <line x1="0" y1="62" x2="90" y2="62" class="event"/>
+    <text x="105" y="67" class="legend">асинхронно</text>
+  </g>
+
+  <!-- External systems -->
+  <g>
+    <rect x="1530" y="505" width="150" height="110" rx="10" class="external"/>
+    <text x="1605" y="534" class="card-title">Платежный</text>
+    <text x="1605" y="555" class="card-title">провайдер</text>
+    <text x="1605" y="578" class="card-type">[External System]</text>
+    <text x="1605" y="600" class="card-text">Эквайринг</text>
+  </g>
+  <g>
+    <rect x="1530" y="665" width="150" height="110" rx="10" class="external"/>
+    <text x="1605" y="694" class="card-title">Провайдер</text>
+    <text x="1605" y="715" class="card-title">сообщений</text>
+    <text x="1605" y="738" class="card-type">[External System]</text>
+    <text x="1605" y="760" class="card-text">Email/SMS/push</text>
+  </g>
+
+  <!-- Data ownership panel -->
+  <rect x="75" y="805" width="1380" height="285" rx="12" class="panel"/>
+  <text x="100" y="840" class="panel-title">Владение данными - отдельное хранилище и учетные данные на каждый сервис</text>
+  <text x="100" y="866" class="subtitle">Прямые запросы и внешние ключи между базами запрещены</text>
+
+  <g transform="translate(105 900)">
+    <text x="95" y="0" class="owner">User Service</text>
+    <line x1="95" y1="12" x2="95" y2="35" stroke="#155e93" stroke-width="2"/>
+    <rect x="0" y="35" width="190" height="90" rx="10" class="database"/>
+    <text x="95" y="68" class="db-title">User DB</text>
+    <text x="95" y="91" class="db-type">[PostgreSQL]</text>
+    <text x="95" y="112" class="db-type">профили, роли, адреса</text>
+  </g>
+  <g transform="translate(330 900)">
+    <text x="95" y="0" class="owner">Catalog Service</text>
+    <line x1="95" y1="12" x2="95" y2="35" stroke="#155e93" stroke-width="2"/>
+    <rect x="0" y="35" width="190" height="90" rx="10" class="database"/>
+    <text x="95" y="68" class="db-title">Catalog DB</text>
+    <text x="95" y="91" class="db-type">[PostgreSQL]</text>
+    <text x="95" y="112" class="db-type">товары, категории, цены</text>
+  </g>
+  <g transform="translate(555 900)">
+    <text x="95" y="0" class="owner">Feed Service</text>
+    <line x1="95" y1="12" x2="95" y2="35" stroke="#155e93" stroke-width="2"/>
+    <rect x="0" y="35" width="190" height="90" rx="10" class="database"/>
+    <text x="95" y="68" class="db-title">Feed Store</text>
+    <text x="95" y="91" class="db-type">[Key-value / analytical]</text>
+    <text x="95" y="112" class="db-type">сигналы и рекомендации</text>
+  </g>
+  <g transform="translate(780 900)">
+    <text x="95" y="0" class="owner">Order Service</text>
+    <line x1="95" y1="12" x2="95" y2="35" stroke="#155e93" stroke-width="2"/>
+    <rect x="0" y="35" width="190" height="90" rx="10" class="database"/>
+    <text x="95" y="68" class="db-title">Order DB</text>
+    <text x="95" y="91" class="db-type">[PostgreSQL]</text>
+    <text x="95" y="112" class="db-type">заказы и снимки позиций</text>
+  </g>
+  <g transform="translate(1005 900)">
+    <text x="95" y="0" class="owner">Payment Service</text>
+    <line x1="95" y1="12" x2="95" y2="35" stroke="#155e93" stroke-width="2"/>
+    <rect x="0" y="35" width="190" height="90" rx="10" class="database"/>
+    <text x="95" y="68" class="db-title">Payment DB</text>
+    <text x="95" y="91" class="db-type">[PostgreSQL]</text>
+    <text x="95" y="112" class="db-type">операции и проводки</text>
+  </g>
+  <g transform="translate(1230 900)">
+    <text x="95" y="0" class="owner">Notification Service</text>
+    <line x1="95" y1="12" x2="95" y2="35" stroke="#155e93" stroke-width="2"/>
+    <rect x="0" y="35" width="190" height="90" rx="10" class="database"/>
+    <text x="95" y="68" class="db-title">Notification DB</text>
+    <text x="95" y="91" class="db-type">[PostgreSQL]</text>
+    <text x="95" y="112" class="db-type">шаблоны и журнал</text>
+  </g>
+
+  <text x="75" y="1160" class="subtitle">C4 level: Container | Сплошные линии: синхронно | Фиолетовый пунктир: доменные события</text>
+</svg>
